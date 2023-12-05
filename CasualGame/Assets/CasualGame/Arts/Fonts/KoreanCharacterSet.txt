@@ -1,0 +1,12 @@
+32-126, 44032-55203, 1593-12643, 8200-9900
+
+32-126 : 영어
+44032-55203 : 한글
+12593-12643 : 한글 자모음
+8200-9900 : 특수문자
+
+Sampling Point Size : Auto Sizing
+Padding : 5
+Packing Method : Fast
+Atlas Resolution : 4096 x 4096
+Character Set : Custom Range
