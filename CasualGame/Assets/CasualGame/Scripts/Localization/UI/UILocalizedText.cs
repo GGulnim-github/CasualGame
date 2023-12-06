@@ -7,14 +7,18 @@ using TMPro;
 public class UILocalizedText : MonoBehaviour
 {
     public string key;
-
+    public bool dontSetStringInAwake;
     TextMeshProUGUI m_Text;
 
     private void Awake()
     {
         m_Text = GetComponent<TextMeshProUGUI>();
         LocalizationManager.Instance.AddUIText(this);
-        SetString();
+
+        if (dontSetStringInAwake == false)
+        {
+            SetString();
+        }
     }
 
     private void OnDestroy()
@@ -25,6 +29,13 @@ public class UILocalizedText : MonoBehaviour
 
     public void SetString()
     {
+        if (m_Text == null) m_Text = GetComponent<TextMeshProUGUI>();
         m_Text.text = LocalizationManager.Instance.GetLocalizedString(key);
+    }
+
+    public void SetString(string key)
+    {
+        this.key = key;
+        SetString();
     }
 }

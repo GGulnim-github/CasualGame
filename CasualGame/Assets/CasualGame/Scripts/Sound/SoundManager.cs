@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class SoundManager : PersistentSingleton<SoundManager>
     const float MAX_VOLUME = 0f;
     const float MIN_VOLUME = -80f;
 
+    [NonSerialized]
+    public float MAX_VALUE = 100f;
+
     float _volumeBGM;
     public float VolumeBGM
     {
@@ -16,6 +20,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
         set
         {
             SetVolumeBGM(value);
+            SetBGMSliderAndText();
         }
     }
 
@@ -26,6 +31,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
         set
         {
             SetVolumeSFX(value);
+            SetSFXSliderAndText();
         }
     }
 
@@ -36,6 +42,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
         set
         {
             SetMuteBGM(value);
+            SetBGMToggle();
         }
     }
 
@@ -46,14 +53,15 @@ public class SoundManager : PersistentSingleton<SoundManager>
         set
         {
             SetMuteSFX(value);
+            SetSFXToggle();
         }
     }
 
     [Header("Audio Mixer")]
-    [SerializeField] AudioMixer _audioMixer;
+    [SerializeField]
+    AudioMixer _audioMixer;
 
     AudioMixerGroup _bgmAudioMixerGroup;
-    AudioMixerGroup _sfxAudioMixerGroup;
 
     AudioMixerGroup _uiAudioMixerGroup;
     AudioMixerGroup _enviromentMixerGroup;
@@ -70,6 +78,14 @@ public class SoundManager : PersistentSingleton<SoundManager>
     IObjectPool<SoundSFXEffect> _sfxEffectPool;
     Dictionary<string, AudioClip> _preloadClip;
 
+    List<UISoundBGMSlider> _uiBGMSliderList = new();
+    List<UISoundBGMText> _uiBGMTextList = new();
+    List<UISoundBGMToggle> _uiBGMToggleList = new();
+
+    List<UISoundSFXSlider> _uiSFXSliderList = new();
+    List<UISoundSFXText> _uiSFXTextList = new();
+    List<UISoundSFXToggle> _uiSFXToggleList = new();
+
     public void Initialize()
     {
         if (_audioMixer == null)
@@ -78,7 +94,6 @@ public class SoundManager : PersistentSingleton<SoundManager>
         }
 
         _bgmAudioMixerGroup = _audioMixer.FindMatchingGroups("Master/BGM")[0];
-        _sfxAudioMixerGroup = _audioMixer.FindMatchingGroups("Master/SFX")[0];
 
         _uiAudioMixerGroup = _audioMixer.FindMatchingGroups("Master/SFX/UI")[0];
         _enviromentMixerGroup = _audioMixer.FindMatchingGroups("Master/SFX/Enviroment")[0];
@@ -96,10 +111,10 @@ public class SoundManager : PersistentSingleton<SoundManager>
 
         _sfxEffectPool = new ObjectPool<SoundSFXEffect>(CreateSFXEffect, OnGetSFXEffect, OnReleaseSFXEffect, OnClearSFXEffect);
 
-        SetMuteBGM(false);
-        SetMuteSFX(false);
-        SetVolumeBGM(1f);
-        SetVolumeSFX(1f);
+        MuteBGM = false;
+        MuteSFX = false;
+        VolumeBGM = 100f;
+        VolumeSFX = 100f;
     }
 
     #region SFX Effect Pool
@@ -187,7 +202,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
         }
         else
         {
-            _audioMixer.SetFloat("BGM", _volumeBGM);
+            _audioMixer.SetFloat("BGM", GetVolume(_volumeBGM));
         }
     }
     void SetMuteSFX(bool value)
@@ -199,24 +214,150 @@ public class SoundManager : PersistentSingleton<SoundManager>
         }
         else
         {
-            _audioMixer.SetFloat("SFX", _volumeSFX);
+            _audioMixer.SetFloat("SFX", GetVolume(_volumeSFX));
         }
     }
 
     void SetVolumeBGM(float value)
     {
-        _volumeBGM = GetVolume(value);
+        _volumeBGM = value;
         if (_muteBGM) return;
-        _audioMixer.SetFloat("BGM", _volumeBGM);
+        _audioMixer.SetFloat("BGM", GetVolume(_volumeBGM));
     }
     void SetVolumeSFX(float value)
     {
-        _volumeSFX = GetVolume(value);
+        _volumeSFX = value;
         if (_muteSFX) return;
-        _audioMixer.SetFloat("SFX", _volumeSFX);
+        _audioMixer.SetFloat("SFX", GetVolume(_volumeSFX));
     }
     float GetVolume(float value)
     {
-        return value * (MAX_VOLUME - MIN_VOLUME) + MIN_VOLUME;
+        return value / MAX_VALUE * (MAX_VOLUME - MIN_VOLUME) + MIN_VOLUME;
+    }
+
+    public void AddBGMSlider(UISoundBGMSlider slider)
+    {
+        if (_uiBGMSliderList.Contains(slider)) return;
+        _uiBGMSliderList.Add(slider);
+    }
+    public void RemoveBGMSlider(UISoundBGMSlider slider)
+    {
+        if (_uiBGMSliderList.Contains(slider) == false) return;
+        _uiBGMSliderList.Remove(slider);
+    }
+    public void AddBGMText(UISoundBGMText text)
+    {
+        if (_uiBGMTextList.Contains(text)) return;
+        _uiBGMTextList.Add(text);
+    }
+    public void RemoveBGMText(UISoundBGMText text)
+    {
+        if (_uiBGMTextList.Contains(text) == false) return;
+        _uiBGMTextList.Remove(text);
+    }
+    public void AddBGMToggle(UISoundBGMToggle toggle)
+    {
+        if (_uiBGMToggleList.Contains(toggle)) return;
+        _uiBGMToggleList.Add(toggle);
+    }
+    public void RemoveBGMToggle(UISoundBGMToggle toggle)
+    {
+        if (_uiBGMToggleList.Contains(toggle) == false) return;
+        _uiBGMToggleList.Remove(toggle);
+    }
+
+    void SetBGMSliderAndText()
+    {
+        foreach (var slider in _uiBGMSliderList)
+        {
+            if (slider.Value != _volumeBGM)
+            {
+                slider.SetValueWithoutNotify(_volumeBGM);
+            }
+        }
+        foreach (var text in _uiBGMTextList)
+        {
+            text.SetString();
+        }
+    }
+    void SetBGMToggle()
+    {
+        foreach (var toggle in _uiBGMToggleList)
+        {
+            if (toggle.IsOn == _muteBGM)
+            {
+                toggle.SetIsOnWithoutNotify(!_muteBGM);
+            }
+        }
+        foreach (var slider in _uiBGMSliderList)
+        {
+            if (slider.Interactable == _muteBGM)
+            {
+                slider.SetInteractable(!_muteBGM);
+            }
+        }
+    }
+
+    public void AddSFXSlider(UISoundSFXSlider slider)
+    {
+        if (_uiSFXSliderList.Contains(slider)) return;
+        _uiSFXSliderList.Add(slider);
+    }
+    public void RemoveSFXSlider(UISoundSFXSlider slider)
+    {
+        if (_uiSFXSliderList.Contains(slider) == false) return;
+        _uiSFXSliderList.Remove(slider);
+    }
+    public void AddSFXText(UISoundSFXText text)
+    {
+        if (_uiSFXTextList.Contains(text)) return;
+        _uiSFXTextList.Add(text);
+    }
+    public void RemoveSFXText(UISoundSFXText text)
+    {
+        if (_uiSFXTextList.Contains(text) == false) return;
+        _uiSFXTextList.Remove(text);
+    }
+    public void AddSFXToggle(UISoundSFXToggle toggle)
+    {
+        if (_uiSFXToggleList.Contains(toggle)) return;
+        _uiSFXToggleList.Add(toggle);
+    }
+    public void RemoveSFXToggle(UISoundSFXToggle toggle)
+    {
+        if (_uiSFXToggleList.Contains(toggle) == false) return;
+        _uiSFXToggleList.Remove(toggle);
+    }
+
+    void SetSFXSliderAndText()
+    {
+        foreach (var slider in _uiSFXSliderList)
+        {
+            if (slider.Value != _volumeSFX)
+            {
+                slider.SetValueWithoutNotify(_volumeSFX);
+            }
+        }
+        foreach (var text in _uiSFXTextList)
+        {
+            text.SetString();
+        }
+    }
+    void SetSFXToggle()
+    {
+        foreach (var toggle in _uiSFXToggleList)
+        {
+            if (toggle.IsOn == _muteSFX)
+            {
+                toggle.SetIsOnWithoutNotify(!_muteSFX);
+            }
+        }
+        foreach (var slider in _uiSFXSliderList)
+        {
+            if (slider.Interactable == _muteSFX)
+            {
+                slider.SetInteractable(!_muteSFX);
+            }
+        }
     }
 }

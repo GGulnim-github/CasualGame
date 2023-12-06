@@ -17,6 +17,7 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
 
     LocalizationTableSO _localizationTableSO;
     List<UILocalizedText> _uiTextList = new();
+
     List<UILocalizationToggle> _uiToggleList = new();
 
     public void Initialize()
@@ -39,6 +40,10 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
                 {
                     toggle.SetIsOnWithoutNotify(true);
                 }
+            }
+            else
+            {
+                toggle.SetIsOnWithoutNotify(false);
             }
         }
     }

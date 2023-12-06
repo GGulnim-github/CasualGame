@@ -13,8 +13,10 @@ public class LocalizationManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         _localizationManager = (LocalizationManager)target;
-        
-        DrawScriptField();
+        base.OnInspectorGUI();
+
+        if (Application.isPlaying == false) return;
+
         DrawCurrentLanguage();
         DrawLocalizationButton();
     }
@@ -27,6 +29,7 @@ public class LocalizationManagerEditor : Editor
         EditorGUI.EndDisabledGroup();
         GUILayout.EndVertical();
     }
+
     void DrawCurrentLanguage()
     {
         GUILayout.BeginHorizontal();
@@ -35,7 +38,6 @@ public class LocalizationManagerEditor : Editor
         EditorGUI.EndDisabledGroup();
         GUILayout.EndHorizontal();
     }
-
     void DrawLocalizationButton()
     {
         if (Application.isPlaying)

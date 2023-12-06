@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Toggle))]
 [RequireComponent(typeof(ToggleEventTrigger))]
-public class UILocalizationToggle : MonoBehaviour
+public class UISoundSFXToggle : MonoBehaviour
 {
-    public LocalizationLanguage language;
     public bool IsOn { get { return m_Toggle.isOn; } }
 
     Toggle m_Toggle;
@@ -20,14 +19,14 @@ public class UILocalizationToggle : MonoBehaviour
         m_EventTrigger.Initialize();
 
         m_Toggle.onValueChanged.AddListener(OnValueChanged);
-        SetIsOnWithoutNotify(language == LocalizationManager.Instance.Language);
-        LocalizationManager.Instance.AddUIToggle(this);
+        SetIsOnWithoutNotify(!SoundManager.Instance.MuteSFX);
+        SoundManager.Instance.AddSFXToggle(this);
     }
 
     private void OnDestroy()
     {
-        if (LocalizationManager.Instance == null) return;
-        LocalizationManager.Instance.RemoveUIToggle(this);
+        if (SoundManager.Instance == null) return;
+        SoundManager.Instance.RemoveSFXToggle(this);
     }
 
     public void SetIsOnWithoutNotify(bool value)
@@ -38,10 +37,7 @@ public class UILocalizationToggle : MonoBehaviour
 
     void OnValueChanged(bool value)
     {
-        if (value)
-        {
-            LocalizationManager.Instance.Language = language;
-        }
+        SoundManager.Instance.MuteSFX = !value;
         m_EventTrigger.Set(value);
     }
 }
