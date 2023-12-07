@@ -1,49 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(100)]
 [RequireComponent(typeof(Toggle))]
 public class ToggleEventTrigger : MonoBehaviour
 {
-    ToggleEvent[] _toggleEvents;
+    [Serializable]
+    public class ToggleOnEvent : UnityEvent { }
 
-    delegate void OnActionDelegate();
-    OnActionDelegate _onAction;
+    [SerializeField]
+    [FormerlySerializedAs("onEvent")]
+    ToggleOnEvent _onEvent = new();
 
-    delegate void OffActionDelegate();
-    OnActionDelegate _offAction;
+    [Serializable]
+    public class ToggleOffEvent : UnityEvent { }
 
-    public void Initialize()
+    [SerializeField]
+    [FormerlySerializedAs("offEvent")]
+    ToggleOffEvent _offEvent = new();
+
+    Toggle m_Toggle;
+
+    private void Awake()
     {
-        _toggleEvents = GetComponentsInChildren<ToggleEvent>();
-
-        foreach(ToggleEvent toggleEvent in _toggleEvents)
-        {
-            _onAction += toggleEvent.OnAction;
-            _offAction += toggleEvent.OffAction;
-        }
+        m_Toggle = GetComponent<Toggle>();
+        m_Toggle.onValueChanged.AddListener(OnValueChanged);
     }
 
-    public void Set(bool value)
+    private void OnEnable()
+    {
+        OnValueChanged(m_Toggle.isOn);
+    }
+
+    void OnValueChanged(bool value)
     {
         if (value)
         {
-            OnAction();
+            _onEvent?.Invoke();
         }
         else
         {
-            OffAction();
+            _offEvent?.Invoke();
         }
-    }
-
-    void OnAction()
-    {
-        _onAction?.Invoke();
-    }
-
-    void OffAction()
-    {
-        _offAction?.Invoke();
     }
 }

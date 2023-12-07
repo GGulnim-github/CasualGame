@@ -1,6 +1,10 @@
 public enum SoundType
 {
-    Bgm,
+    BGM,
+    SFX
+}
+public enum SoundSFXType
+{
     UI,
     Enviroment,
     Effect

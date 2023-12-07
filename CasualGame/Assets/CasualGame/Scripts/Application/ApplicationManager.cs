@@ -40,7 +40,6 @@ public class ApplicationManager : PersistentSingleton<ApplicationManager>
             Quit();
         }
     }
-
     public void Quit()
     {
 #if UNITY_EDITOR

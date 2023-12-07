@@ -11,14 +11,11 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
         set
         {
             SetLanguage(value);
-            SetToggle();
         }
     }
 
     LocalizationTableSO _localizationTableSO;
     List<UILocalizedText> _uiTextList = new();
-
-    List<UILocalizationToggle> _uiToggleList = new();
 
     public void Initialize()
     {
@@ -30,23 +27,6 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
         _localizationTableSO = GetLocalizationTable(language);
         UpdateString();
     }   
-    void SetToggle()
-    {
-        foreach (var toggle in _uiToggleList)
-        {
-            if (toggle.language == Language)
-            {
-                if (toggle.IsOn == false)
-                {
-                    toggle.SetIsOnWithoutNotify(true);
-                }
-            }
-            else
-            {
-                toggle.SetIsOnWithoutNotify(false);
-            }
-        }
-    }
 
     LocalizationLanguage GetDefaultLanguage()
     {
@@ -100,17 +80,5 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
     {
         if (_uiTextList.Contains(text) == false) return;
         _uiTextList.Remove(text);
-    }
-
-    public void AddUIToggle(UILocalizationToggle toggle)
-    {
-        if (_uiToggleList.Contains(toggle)) return;
-        _uiToggleList.Add(toggle);
-    }
-
-    public void RemoveUIToggle(UILocalizationToggle toggle)
-    {
-        if (_uiToggleList.Contains(toggle) == false) return;
-        _uiToggleList.Remove(toggle);
     }
 }
