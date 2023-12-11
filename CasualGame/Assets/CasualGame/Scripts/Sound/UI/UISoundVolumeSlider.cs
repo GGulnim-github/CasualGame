@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
@@ -25,6 +26,10 @@ public class UISoundVolumeSlider : MonoBehaviour
         bool mute = false;
         switch (soundType)
         {
+            case SoundType.Master:
+                volume = SoundManager.Instance.VolumeMaster;
+                mute = SoundManager.Instance.MuteMaster;
+                break;
             case SoundType.BGM:
                 volume = SoundManager.Instance.VolumeBGM;
                 mute = SoundManager.Instance.MuteBGM;
@@ -33,7 +38,7 @@ public class UISoundVolumeSlider : MonoBehaviour
                 volume = SoundManager.Instance.VolumeSFX;
                 mute = SoundManager.Instance.MuteSFX;
                 break;
-        } 
+        }
         m_Slider.SetValueWithoutNotify(volume);
         m_Slider.interactable = !mute;
 
@@ -47,12 +52,20 @@ public class UISoundVolumeSlider : MonoBehaviour
     {
         switch (soundType)
         {
+            case SoundType.Master:
+                SoundManager.Instance.VolumeMaster = value;
+                break;
             case SoundType.BGM:
                 SoundManager.Instance.VolumeBGM = value;
                 break;
             case SoundType.SFX:
                 SoundManager.Instance.VolumeSFX = value;
                 break;
+        }
+
+        if (valueText != null)
+        {
+            valueText.text = ((int)value).ToString();
         }
     }
 }

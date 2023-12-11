@@ -21,6 +21,9 @@ public class UISoundMuteToggle : MonoBehaviour
         bool mute = false;
         switch (soundType)
         {
+            case SoundType.Master:
+                mute = SoundManager.Instance.MuteMaster;
+                break;
             case SoundType.BGM:
                 mute = SoundManager.Instance.MuteBGM;
                 break;
@@ -35,6 +38,9 @@ public class UISoundMuteToggle : MonoBehaviour
     {
         switch (soundType)
         {
+            case SoundType.Master:
+                SoundManager.Instance.MuteMaster = value;
+                break;
             case SoundType.BGM:
                 SoundManager.Instance.MuteBGM = value;
                 break;
