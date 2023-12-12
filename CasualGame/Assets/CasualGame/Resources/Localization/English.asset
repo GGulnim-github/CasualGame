@@ -28,6 +28,13 @@ MonoBehaviour:
     - "txt-\uD6A8\uACFC\uC74C"
     - "txt-\uCF1C\uC9D0"
     - "txt-\uAEBC\uC9D0"
+    - "txt-\uAC8C\uC784\uD658\uACBD"
+    - "txt-\uC790\uB3D9"
+    - "txt-\uD504\uB808\uC784"
+    - "txt-\uADF8\uB798\uD53D"
+    - "txt-\uB0AE\uC74C"
+    - "txt-\uC911\uAC04"
+    - "txt-\uB192\uC74C"
     values:
     - Confirm
     - Cancel
@@ -42,3 +49,10 @@ MonoBehaviour:
     - SFX
     - On
     - Off
+    - Game Setting
+    - Auto
+    - Target Frame
+    - Graphics
+    - Low
+    - Medium
+    - High
