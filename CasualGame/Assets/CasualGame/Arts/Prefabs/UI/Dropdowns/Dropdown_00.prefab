@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\uD14D\uC2A4\uD2B8"
+    - m_Text: Option A
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -730,6 +730,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
+      propertyPath: m_text
+      value: Option A
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
       propertyPath: m_fontSize
       value: 24
       objectReference: {fileID: 0}
@@ -892,7 +897,7 @@ PrefabInstance:
     - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
       propertyPath: m_text
-      value: "\uD14D\uC2A4\uD2B8"
+      value: Option A
       objectReference: {fileID: 0}
     - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
