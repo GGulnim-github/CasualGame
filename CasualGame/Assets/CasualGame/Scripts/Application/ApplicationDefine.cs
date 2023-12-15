@@ -1,7 +1,13 @@
 public enum ApplicationTargetFrame
 {
-    Auto = -1,
-    FPS30 = 30,
-    FPS45 = 45,
-    FPS60 = 60 
+    Auto,
+    FPS30,
+    FPS60
+}
+
+public enum ApplicationGraphicsQuality
+{
+    Low,
+    Medium,
+    High,
 }

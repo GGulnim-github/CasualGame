@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
@@ -10,6 +9,12 @@ public class UISoundVolumeSlider : MonoBehaviour
 {
     public SoundType soundType;
     public TextMeshProUGUI valueText;
+
+    public Color enableColor;
+    public Color disableColor;
+
+    public Color textEnableColor;
+    public Color textDisableColor;
 
     Slider m_Slider;
 
@@ -26,10 +31,6 @@ public class UISoundVolumeSlider : MonoBehaviour
         bool mute = false;
         switch (soundType)
         {
-            case SoundType.Master:
-                volume = SoundManager.Instance.VolumeMaster;
-                mute = SoundManager.Instance.MuteMaster;
-                break;
             case SoundType.BGM:
                 volume = SoundManager.Instance.VolumeBGM;
                 mute = SoundManager.Instance.MuteBGM;
@@ -41,6 +42,7 @@ public class UISoundVolumeSlider : MonoBehaviour
         }
         m_Slider.SetValueWithoutNotify(volume);
         m_Slider.interactable = !mute;
+        SetColor();
 
         if (valueText != null)
         {
@@ -52,9 +54,6 @@ public class UISoundVolumeSlider : MonoBehaviour
     {
         switch (soundType)
         {
-            case SoundType.Master:
-                SoundManager.Instance.VolumeMaster = value;
-                break;
             case SoundType.BGM:
                 SoundManager.Instance.VolumeBGM = value;
                 break;
@@ -66,6 +65,30 @@ public class UISoundVolumeSlider : MonoBehaviour
         if (valueText != null)
         {
             valueText.text = ((int)value).ToString();
+        }
+    }
+
+    public void SetColor()
+    {
+        if (m_Slider.interactable)
+        {
+            m_Slider.fillRect.GetComponent<Image>().color = enableColor;
+            m_Slider.handleRect.GetComponent<Image>().color = enableColor;
+
+            if (valueText != null)
+            {
+                valueText.color = textEnableColor;
+            }
+        }
+        else
+        {
+            m_Slider.fillRect.GetComponent<Image>().color = disableColor;
+            m_Slider.handleRect.GetComponent<Image>().color = disableColor;
+
+            if (valueText != null)
+            {
+                valueText.color = textDisableColor;
+            }
         }
     }
 }

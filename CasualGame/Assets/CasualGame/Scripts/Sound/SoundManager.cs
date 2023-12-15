@@ -13,16 +13,6 @@ public class SoundManager : PersistentSingleton<SoundManager>
     [NonSerialized]
     public float MAX_VALUE = 100f;
 
-    float _volumeMaster;
-    public float VolumeMaster
-    {
-        get { return _volumeMaster; }
-        set
-        {
-            SetVolumeMaster(value);
-        }
-    }
-
     float _volumeBGM;
     public float VolumeBGM
     {
@@ -40,16 +30,6 @@ public class SoundManager : PersistentSingleton<SoundManager>
         set
         {
             SetVolumeSFX(value);
-        }
-    }
-
-    bool _muteMaster;
-    public bool MuteMaster
-    {
-        get { return _muteMaster; }
-        set
-        {
-            SetMuteMaster(value); ;
         }
     }
 
@@ -219,18 +199,6 @@ public class SoundManager : PersistentSingleton<SoundManager>
         return _enviromentMixerGroup ?? GetAudioMixer().FindMatchingGroups("Master/Sfx/Enviroment")[0];
     }
 
-    void SetMuteMaster(bool value)
-    {
-        _muteMaster = value;
-        if (_muteMaster)
-        {
-            _audioMixer.SetFloat("Master", MIN_VOLUME);
-        }
-        else
-        {
-            _audioMixer.SetFloat("Master", GetVolume(_volumeMaster));
-        }
-    }
     void SetMuteBGM(bool value)
     {
         _muteBGM = value;
@@ -256,12 +224,6 @@ public class SoundManager : PersistentSingleton<SoundManager>
         }
     }
 
-    void SetVolumeMaster(float value)
-    {
-        _volumeMaster = value;
-        if (_muteMaster) return;
-        _audioMixer.SetFloat("Master", GetVolume(_volumeMaster));
-    }
     void SetVolumeBGM(float value)
     {
         _volumeBGM = value;

@@ -35,6 +35,10 @@ MonoBehaviour:
     - "txt-\uB0AE\uC74C"
     - "txt-\uC911\uAC04"
     - "txt-\uB192\uC74C"
+    - txt-fps30
+    - txt-fps60
+    - "txt-\uC0AC\uC6B4\uB4DC"
+    - "txt-\uD488\uC9C8"
     values:
     - Confirm
     - Cancel
@@ -56,3 +60,7 @@ MonoBehaviour:
     - Low
     - Medium
     - High
+    - FPS30
+    - FPS60
+    - Sound
+    - Quality

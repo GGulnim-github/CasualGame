@@ -16,6 +16,7 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
 
     LocalizationTableSO _localizationTableSO;
     List<UILocalizedText> _uiTextList = new();
+    List<UILocalizedDropdown> _uiDropdownList = new();
 
     public void Initialize()
     {
@@ -55,6 +56,11 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
         {
             text.SetString();
         }
+
+        foreach (var dropdown in _uiDropdownList)
+        {
+            dropdown.SetString();
+        }
     }
 
     public string GetLocalizedString(string key)
@@ -80,5 +86,17 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
     {
         if (_uiTextList.Contains(text) == false) return;
         _uiTextList.Remove(text);
+    }
+
+    public void AddUIDropdown(UILocalizedDropdown dropdown)
+    {
+        if (_uiDropdownList.Contains(dropdown)) return;
+        _uiDropdownList.Add(dropdown);
+    }
+
+    public void RemoveUIDropdown(UILocalizedDropdown dropdown)
+    {
+        if (_uiDropdownList.Contains(dropdown) == false) return;
+        _uiDropdownList.Remove(dropdown);
     }
 }

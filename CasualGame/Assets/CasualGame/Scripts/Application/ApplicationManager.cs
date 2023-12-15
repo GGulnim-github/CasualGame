@@ -21,6 +21,12 @@ public class ApplicationManager : PersistentSingleton<ApplicationManager>
         set { _settingSystem.SetTargetFrameRate(value); }
     }
 
+    public ApplicationGraphicsQuality GraphicsQuality
+    {
+        get { return _settingSystem.GraphicsQuality; }
+        set { _settingSystem.SetGraphicsQuality(value); }
+    }
+
     private void OnEnable()
     {
         _logSystem.OnEnable();
