@@ -33,6 +33,11 @@ public class UIManager : PersistentSingleton<UIManager>
                 OpenPopupUI<UIExitGame>();
             }
         }
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            OpenPopupUI<UISetting>();
+        }
     }
 
     public T OpenPopupUI<T>() where T : UIPopup

@@ -116,6 +116,7 @@ public class LocalizationTableCreator : EditorWindow
             AssetDatabase.CreateAsset(table, $"{_savePath}/{table.language}.asset");
             AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(table));
         }
+        Debug.Log("Localization Create Table Finish!!");
 
         reader.Dispose();
         reader.Close();

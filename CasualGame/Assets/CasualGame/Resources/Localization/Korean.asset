@@ -15,30 +15,33 @@ MonoBehaviour:
   language: 0
   localizedStrings:
     keys:
-    - "txt-\uD655\uC778"
-    - "txt-\uCDE8\uC18C"
-    - "txt-\uAC8C\uC2A4\uD2B8\uB85C\uADF8\uC778"
-    - "txt-\uAD6C\uAE00\uB85C\uADF8\uC778"
-    - "txt-\uC124\uC815"
-    - "txt-\uC5B8\uC5B4"
-    - "txt-\uAC8C\uC784"
-    - "txt-\uBCFC\uB968"
-    - "txt-\uC804\uCCB4\uC74C\uB7C9"
-    - "txt-\uBC30\uACBD\uC74C"
-    - "txt-\uD6A8\uACFC\uC74C"
-    - "txt-\uCF1C\uC9D0"
-    - "txt-\uAEBC\uC9D0"
-    - "txt-\uAC8C\uC784\uD658\uACBD"
-    - "txt-\uC790\uB3D9"
-    - "txt-\uD504\uB808\uC784"
-    - "txt-\uADF8\uB798\uD53D"
-    - "txt-\uB0AE\uC74C"
-    - "txt-\uC911\uAC04"
-    - "txt-\uB192\uC74C"
+    - txt-confirm
+    - txt-cancel
+    - txt-guestLogin
+    - txt-googleLogin
+    - txt-setting
+    - txt-language
+    - txt-game
+    - txt-volume
+    - txt-bgm
+    - txt-sfx
+    - txt-on
+    - txt-off
+    - txt-gameSetting
+    - txt-auto
+    - txt-targerFrame
+    - txt-graphics
+    - txt-low
+    - txt-medium
+    - txt-high
     - txt-fps30
     - txt-fps60
-    - "txt-\uC0AC\uC6B4\uB4DC"
-    - "txt-\uD488\uC9C8"
+    - txt-sound
+    - txt-quality
+    - txt-exitGame
+    - txt-exitGameInfo
+    - txt-yes
+    - txt-no
     values:
     - "\uD655\uC778"
     - "\uCDE8\uC18C"
@@ -48,7 +51,6 @@ MonoBehaviour:
     - "\uC5B8\uC5B4"
     - "\uAC8C\uC784"
     - "\uBCFC\uB968"
-    - "\uC804\uCCB4 \uC74C\uB7C9"
     - "\uBC30\uACBD\uC74C"
     - "\uD6A8\uACFC\uC74C"
     - "\uCF1C\uC9D0"
@@ -64,3 +66,7 @@ MonoBehaviour:
     - FPS60
     - "\uC0AC\uC6B4\uB4DC"
     - "\uD488\uC9C8"
+    - "\uB098\uAC00\uAE30"
+    - "\uC815\uB9D0 \uAC8C\uC784\uC744<br>\uC885\uB8CC\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+    - "\uC608"
+    - "\uC544\uB2C8\uC694"

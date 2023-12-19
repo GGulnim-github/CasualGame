@@ -21,13 +21,13 @@ public class UIGraphicsQualityDropDown : MonoBehaviour
             switch (graphicsQuality)
             {
                 case ApplicationGraphicsQuality.Low:
-                    str = "txt-낮음";
+                    str = "txt-low";
                     break;
                 case ApplicationGraphicsQuality.Medium:
-                    str = "txt-중간";
+                    str = "txt-medium";
                     break;
                 case ApplicationGraphicsQuality.High:
-                    str = "txt-높음";
+                    str = "txt-high";
                     break;
             }
             m_Dropdown.options.Add(new TMP_Dropdown.OptionData(str));

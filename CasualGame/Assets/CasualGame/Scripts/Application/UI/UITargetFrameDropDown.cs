@@ -21,7 +21,7 @@ public class UITargetFrameDropDown : MonoBehaviour
             switch (targetFrame)
             {
                 case ApplicationTargetFrame.Auto:
-                    str = "txt-ÀÚµ¿";
+                    str = "txt-auto";
                     break;
                 case ApplicationTargetFrame.FPS30:
                     str = "txt-fps30";
