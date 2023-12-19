@@ -9,5 +9,6 @@ public class GameManager : PersistentSingleton<GameManager>
         ApplicationManager.Instance.Initialize();
         LocalizationManager.Instance.Initialize();
         SoundManager.Instance.Initialize();
+        UIManager.Instance.Initialize();
     }
 }

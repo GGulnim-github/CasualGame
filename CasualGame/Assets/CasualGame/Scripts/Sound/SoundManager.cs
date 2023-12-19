@@ -72,7 +72,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
     SoundSFXUI _soundUI;
 
     IObjectPool<SoundSFXEffect> _sfxEffectPool;
-    Dictionary<string, AudioClip> _preloadClip;
+    Dictionary<string, AudioClip> _preloadClip = new();
 
     public void Initialize()
     {
