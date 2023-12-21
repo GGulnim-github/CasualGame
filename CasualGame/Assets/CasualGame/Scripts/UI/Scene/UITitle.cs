@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UISetting : UIPopup
+public class UITitle : UIScene
 {
+
 }

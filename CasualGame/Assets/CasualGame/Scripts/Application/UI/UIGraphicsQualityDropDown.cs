@@ -5,7 +5,7 @@ using TMPro;
 using System;
 
 [RequireComponent(typeof(TMP_Dropdown))]
-public class UIGraphicsQualityDropDown : MonoBehaviour
+public class UIGraphicsQualityDropdown : MonoBehaviour
 {
     TMP_Dropdown m_Dropdown;
 

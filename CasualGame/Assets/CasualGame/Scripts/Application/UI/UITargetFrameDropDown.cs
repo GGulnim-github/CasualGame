@@ -5,7 +5,7 @@ using TMPro;
 using System;
 
 [RequireComponent(typeof(TMP_Dropdown))]
-public class UITargetFrameDropDown : MonoBehaviour
+public class UITargetFrameDropdown : MonoBehaviour
 {
     TMP_Dropdown m_Dropdown;
 

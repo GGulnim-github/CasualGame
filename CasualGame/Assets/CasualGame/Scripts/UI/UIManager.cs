@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class UIManager : PersistentSingleton<UIManager>
 {
-    List<UIPopup> _uiPopupList = new();
+    [ReadOnly, SerializeField] UIScene _scene;
+    [ReadOnly, SerializeField] List<UIPopup> _popupList = new();
     
     Dictionary<string, GameObject> _preloadPrefab = new();
 
@@ -16,11 +17,11 @@ public class UIManager : PersistentSingleton<UIManager>
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            int listCount = _uiPopupList.Count;
+            int listCount = _popupList.Count;
             bool openExitGame = true;
             for (int index = listCount - 1; index >= 0; --index)
             {
-                UIPopup popup = _uiPopupList[index];
+                UIPopup popup = _popupList[index];
                 if (popup.gameObject.activeSelf)
                 {
                     popup.Close();
@@ -33,10 +34,54 @@ public class UIManager : PersistentSingleton<UIManager>
                 OpenPopupUI<UIExitGame>();
             }
         }
+    }
 
-        if (Input.GetKeyUp(KeyCode.S))
+    public void SetSceneUI(UIScene scene)
+    {
+        if (_scene == null)
         {
-            OpenPopupUI<UISetting>();
+            _scene = scene;
+        }
+        else
+        {
+            if (_scene != scene)
+            {
+                Destroy(_scene.gameObject);
+                _scene = scene;
+            }
+        }
+        _scene.transform.SetParent(transform);
+    }
+
+    public T OpenSceneUI<T>() where T : UIScene
+    {
+        T scene;
+        if (_scene == null)
+        {
+            scene = CreateUI(UIType.Scene, typeof(T).Name).GetComponent<T>();
+        }
+        else
+        {
+            if (_scene.name == typeof(T).Name)
+            {
+                scene = _scene.GetComponent<T>();
+            }
+            else
+            {
+                scene = CreateUI(UIType.Scene, typeof(T).Name).GetComponent<T>();
+            }
+        }
+        scene.gameObject.SetActive(true);
+
+        return scene;
+    }
+
+    public void CloseSceneUI()
+    {
+        if (_scene != null)
+        {
+            Destroy(_scene.gameObject);
+            _scene = null;
         }
     }
 
@@ -46,8 +91,26 @@ public class UIManager : PersistentSingleton<UIManager>
         if (popup == null)
         {
             popup = CreateUI(UIType.Popup, typeof(T).Name).GetComponent<T>();
-            popup.SetCanvasSortOrder(_uiPopupList.Count);
-            _uiPopupList.Add(popup);
+            popup.SetCanvasSortOrder(_popupList.Count);
+            popup.transform.SetParent(transform);
+
+            _popupList.Add(popup);            
+        }
+        popup.gameObject.SetActive(true);
+
+        return popup;
+    }
+
+    public UIPopup OpenPopupUI(string popupName)
+    {
+        UIPopup popup = GetPopupUI(popupName);
+        if (popup == null)
+        {
+            popup = CreateUI(UIType.Popup, popupName).GetComponent<UIPopup>();
+            popup.SetCanvasSortOrder(_popupList.Count);
+            popup.transform.SetParent(transform);
+
+            _popupList.Add(popup);
         }
         popup.gameObject.SetActive(true);
 
@@ -68,12 +131,12 @@ public class UIManager : PersistentSingleton<UIManager>
     {
         int index = popup.GetCanvasSortOrder();
 
-        _uiPopupList.Remove(popup);
+        _popupList.Remove(popup);
         Destroy(popup.gameObject);
 
-        for (int i = index; i < _uiPopupList.Count; i++)
+        for (int i = index; i < _popupList.Count; i++)
         {
-            _uiPopupList[i].SetCanvasSortOrder(i);
+            _popupList[i].SetCanvasSortOrder(i);
         }
     }
 
@@ -86,11 +149,23 @@ public class UIManager : PersistentSingleton<UIManager>
 
     public T GetPopupUI<T>() where T : UIPopup
     {
-        for (int i = 0; i < _uiPopupList.Count; i++)
+        for (int i = 0; i < _popupList.Count; i++)
         {
-            if (_uiPopupList[i] is T)
+            if (_popupList[i].name == typeof(T).Name)
             {
-                return _uiPopupList[i].GetComponent<T>();
+                return _popupList[i].GetComponent<T>();
+            }
+        }
+        return null;
+    }
+
+    public UIPopup GetPopupUI(string popupName)
+    {
+        for (int i = 0; i < _popupList.Count; i++)
+        {
+            if (_popupList[i].name == popupName)
+            {
+                return _popupList[i].GetComponent<UIPopup>();
             }
         }
         return null;
@@ -99,7 +174,9 @@ public class UIManager : PersistentSingleton<UIManager>
     GameObject CreateUI(UIType type, string prefabName)
     {
         GameObject prefab = GetPrefab(type, prefabName);
-        return Instantiate(prefab);
+        GameObject ui = Instantiate(prefab);
+        ui.name = prefabName;
+        return ui;
     }
 
     string GetPrefabPath(UIType type, string prefabName)

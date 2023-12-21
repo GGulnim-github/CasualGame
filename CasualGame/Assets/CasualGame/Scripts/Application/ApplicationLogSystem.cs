@@ -16,7 +16,7 @@ public class ApplicationLogSystem
 
     void LogMessageAction(string condition, string stackTrace, LogType type)
     {
-        if (type == LogType.Exception || type == LogType.Error)
+        if (type == LogType.Warning || type == LogType.Error || type == LogType.Assert || type == LogType.Exception)
         {
             // TODO : 경고 메세지나 에러 메세지가 출력될때 서버로 로그를 던진다.
         }
