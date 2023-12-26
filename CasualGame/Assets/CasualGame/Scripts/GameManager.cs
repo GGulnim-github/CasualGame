@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : PersistentSingleton<GameManager> 
+public class GameManager : Manager<GameManager> 
 {
-    void Start()
+    public override void Initialize()
     {
-        ApplicationManager.Instance.Initialize();
-        LocalizationManager.Instance.Initialize();
-        SoundManager.Instance.Initialize();
-        UIManager.Instance.Initialize();
+        UIManager.Instance.OpenSceneUI<UITitle>();
     }
 }

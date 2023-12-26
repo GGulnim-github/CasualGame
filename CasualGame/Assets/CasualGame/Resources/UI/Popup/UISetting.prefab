@@ -481,6 +481,11 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 31.6
       objectReference: {fileID: 0}
+    - target: {fileID: 735307194501942890, guid: ce331d836121a974b8c8da163d2d5621,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1146542856378532243, guid: ce331d836121a974b8c8da163d2d5621,
         type: 3}
       propertyPath: m_IsActive
@@ -865,10 +870,20 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5618178634376819416, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5689531970639114650, guid: abd8c66bce69aab48a50a9eed7201ac8,
         type: 3}
       propertyPath: m_Name
       value: Graphics Quality Dropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387576590000270691, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1041,6 +1056,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
@@ -1518,10 +1538,20 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5618178634376819416, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5689531970639114650, guid: abd8c66bce69aab48a50a9eed7201ac8,
         type: 3}
       propertyPath: m_Name
       value: Target Frame Dropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387576590000270691, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1724,6 +1754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 33.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610660654175758690, guid: ce331d836121a974b8c8da163d2d5621,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7866310666340266965, guid: ce331d836121a974b8c8da163d2d5621,
         type: 3}
@@ -2086,6 +2121,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
       propertyPath: m_Name
@@ -2235,10 +2275,20 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5618178634376819416, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5689531970639114650, guid: abd8c66bce69aab48a50a9eed7201ac8,
         type: 3}
       propertyPath: m_Name
       value: Localization Dropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387576590000270691, guid: abd8c66bce69aab48a50a9eed7201ac8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2395,6 +2445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
@@ -2667,6 +2722,11 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 36
       objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
       propertyPath: m_Name
@@ -2819,6 +2879,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
       propertyPath: m_Name
@@ -2847,6 +2912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: txt-sound
+      objectReference: {fileID: 0}
+    - target: {fileID: 735307194501942890, guid: ce331d836121a974b8c8da163d2d5621,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1146542856378532243, guid: ce331d836121a974b8c8da163d2d5621,
         type: 3}
@@ -3221,6 +3291,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}
@@ -3717,6 +3792,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: txt-setting
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872431130055516875, guid: f37e189a17194034fb15d3b78e8ebcc5,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5459743720463932229, guid: f37e189a17194034fb15d3b78e8ebcc5,
         type: 3}
@@ -4375,6 +4455,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1768301570684226853, guid: 6cd34538edf979444bc30044eed1e7d8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496425645507877748, guid: 6cd34538edf979444bc30044eed1e7d8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5448756157698662979, guid: 6cd34538edf979444bc30044eed1e7d8,
         type: 3}
       propertyPath: _onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -4541,6 +4631,16 @@ PrefabInstance:
     - target: {fileID: 1296428202736752014, guid: 6cd34538edf979444bc30044eed1e7d8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768301570684226853, guid: 6cd34538edf979444bc30044eed1e7d8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496425645507877748, guid: 6cd34538edf979444bc30044eed1e7d8,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5448756157698662979, guid: 6cd34538edf979444bc30044eed1e7d8,
@@ -4720,6 +4820,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948450495035351299, guid: 314166abcd4b163458272ab0d7bb2750,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7487908689047667725, guid: 314166abcd4b163458272ab0d7bb2750,
         type: 3}

@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 
 
-public class ApplicationManager : PersistentSingleton<ApplicationManager>
+public class ApplicationManager : Manager<ApplicationManager>
 {
     [ReadOnly][SerializeField] ApplicationInfo _info = new();
     ApplicationLogSystem _logSystem = new();
@@ -36,7 +36,7 @@ public class ApplicationManager : PersistentSingleton<ApplicationManager>
         _logSystem.OnDisable();
     }
 
-    public void Initialize()
+    public override void Initialize()
     {
         _info.Initialize();
         _settingSystem.Initialize();

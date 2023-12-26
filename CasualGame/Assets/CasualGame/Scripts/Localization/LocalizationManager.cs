@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class LocalizationManager : PersistentSingleton<LocalizationManager>
+public class LocalizationManager : Manager<LocalizationManager>
 {
     public LocalizationLanguage Language 
     { 
@@ -18,7 +18,7 @@ public class LocalizationManager : PersistentSingleton<LocalizationManager>
     List<UILocalizedText> _uiTextList = new();
     List<UILocalizedDropdown> _uiDropdownList = new();
 
-    public void Initialize()
+    public override void Initialize()
     {
         Language = GetDefaultLanguage();
     }

@@ -9,12 +9,14 @@ public class ApplicationInfo
     public string version;
     public RuntimePlatform platform;
     public bool isEmulator;
+    public bool isMobile;
 
     public void Initialize()
     {
         version = Application.version;
         platform = Application.platform;
         isEmulator = CheckEmulator();
+        isMobile = SystemInfo.deviceType == DeviceType.Handheld;
     }
 
     bool CheckEmulator()

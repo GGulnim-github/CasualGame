@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
 
-public class SoundManager : PersistentSingleton<SoundManager>
+public class SoundManager : Manager<SoundManager>
 {
     const float MAX_VOLUME = 0f;
     const float MIN_VOLUME = -80f;
@@ -74,7 +74,7 @@ public class SoundManager : PersistentSingleton<SoundManager>
     IObjectPool<SoundSFXEffect> _sfxEffectPool;
     Dictionary<string, AudioClip> _preloadClip = new();
 
-    public void Initialize()
+    public override void Initialize()
     {
         if (_audioMixer == null)
         {

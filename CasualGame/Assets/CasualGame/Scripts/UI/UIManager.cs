@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : PersistentSingleton<UIManager>
+public class UIManager : Manager<UIManager>
 {
     [ReadOnly, SerializeField] UIScene _scene;
     [ReadOnly, SerializeField] List<UIPopup> _popupList = new();
     
     Dictionary<string, GameObject> _preloadPrefab = new();
 
-    public void Initialize()
+    public override void Initialize()
     {
 
     }
