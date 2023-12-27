@@ -14,6 +14,7 @@ public class ApplicationManager : Manager<ApplicationManager>
     public string Version { get { return _info.version; } }
     public RuntimePlatform Platform { get { return _info.platform; } }
     public bool IsEmulator { get { return _info.isEmulator; } }
+    public DeviceType DeviceType { get { return _info.deviceType; } }
 
     public ApplicationTargetFrame TargetFrame 
     { 

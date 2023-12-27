@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class TPSCharacterController : MonoBehaviour
 {
+    [Header("Camera")]
+    public TPSCameraController cameraController;
+    public Transform cameraTarget;
+
     [Header("Ground Check Settings")]
     public LayerMask groundLayerMask;
     public float groundCheckRadius = 0.1f;
@@ -14,16 +17,21 @@ public class TPSCharacterController : MonoBehaviour
 
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
+    public float rotationSpeed = 0.12f;
     public float jumpFoce = 3f;
     public float jumpDelay = 0.2f;
 
     [Header("States")]
+    public bool isMoving;
     public bool isGrounded;
     public bool isJumping;
     public bool canJump;
 
+    float _targetRotation;
+    float _rotationVelocity;
+
     Vector2 _moveInput;
-    Vector3 _moveInputDirection;
+    bool _jumpInput;
 
     Rigidbody m_Rigidbody;
     CapsuleCollider m_Collider;
@@ -37,13 +45,10 @@ public class TPSCharacterController : MonoBehaviour
     private void Update()
     {
         CheckGround();
+        SetInput();
 
-        if (InputManager.Instance.jumpInput && isGrounded == true)
-        {
-            Jump();           
-        }
-
-        _moveInput = InputManager.Instance.moveInput;
+        Jump();       
+        Rotate();
     }
 
     private void FixedUpdate()
@@ -72,15 +77,21 @@ public class TPSCharacterController : MonoBehaviour
             isGrounded = false;
         }
     }
+    void SetInput()
+    {
+        _jumpInput = InputManager.Instance.jumpInput;
+
+        _moveInput = InputManager.Instance.moveInput;
+        isMoving = (_moveInput != Vector2.zero);
+    }
 
     void Jump()
     {
-        if (isGrounded == false || isJumping == true || canJump == false)
+        if (_jumpInput == false || isGrounded == false || isJumping == true || canJump == false)
         {
             return;
         }
 
-        //Logger.Log("Jump");
         isGrounded = false;
         isJumping = true;
         canJump = false;
@@ -97,11 +108,57 @@ public class TPSCharacterController : MonoBehaviour
         canJump = true;
     }
 
+    void Rotate()
+    {
+        if (isMoving == false)
+        {
+            return;
+        }
+
+        Vector3 inputDirection = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
+        _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cameraTarget.transform.eulerAngles.y;
+        float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, rotationSpeed);
+        transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+    }
+
     void Movement()
     {
-        _moveInputDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+        if (isMoving == false)
+        {
+            return;
+        }
 
-        transform.Translate(_moveInputDirection * moveSpeed * Time.deltaTime, Space.World);
+        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        transform.Translate(moveSpeed * Time.deltaTime * targetDirection, Space.World);
+    }
+
+    public void Teleport(Vector3 position = default(Vector3), float eulerAngleY = 0f, float cameraXAxis = 0f, float cameraYAxis = 0f)
+    {
+        transform.SetPositionAndRotation(position, Quaternion.Euler(0f, eulerAngleY, 0f));
+        if (cameraXAxis == 0f && cameraYAxis == 0f)
+        {
+            cameraController.SetRotation(Vector3.zero);
+        }
+        else
+        {
+            cameraController.SetRotation(new Vector3(cameraXAxis, cameraYAxis, 0f));
+        }
+    }
+
+    Transform CreateEmptyTransform(string name = "New Transform", Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion), Transform parent = null, bool hide = false)
+    {
+        Transform newTransform = new GameObject(name).transform;
+
+        newTransform.SetPositionAndRotation(position, rotation);
+        newTransform.SetParent(parent);
+
+        if (hide)
+        {
+            newTransform.hideFlags = HideFlags.HideInHierarchy;
+            newTransform.gameObject.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        return newTransform;
     }
 
 #if UNITY_EDITOR
