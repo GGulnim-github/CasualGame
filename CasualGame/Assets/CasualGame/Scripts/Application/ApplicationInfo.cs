@@ -21,7 +21,7 @@ public class ApplicationInfo
 
     bool CheckEmulator()
     {
-        if (platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
             AndroidJavaClass osBuild;
             osBuild = new AndroidJavaClass("android.os.Build");

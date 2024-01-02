@@ -8,54 +8,143 @@ public class InputManager : Manager<InputManager>
 {
     public Vector2 moveInput;
     public bool jumpInput;
-
     public Vector2 lookInput;
+    public float zoomInput;
 
-    InputActions _inputActions;
+    PlayerInput m_PlayerInput;
 
-    [SerializeField] bool _isOverUI;
+    InputAction _moveAction;
+    InputAction _jumpAction;
+    InputAction _lookAction;
+    InputAction _lookEngageAction;
+    InputAction _zoomAction;
+
+    Mouse _mouse;
+    Vector2? _mousePositionToWarpToAfterCursorUnlock;
+
+    enum State
+    {
+        InGame,
+        InGameControllingCamera,
+    }
+
+    State _state;
+
+    enum ControlStyle
+    {
+        None,
+        KeyboardMouse,
+        Touch,
+        GamepadJoystick,
+    }
+
+    ControlStyle _controlStyle;
 
     public override void Initialize()
     {
-        _inputActions = new InputActions();
-        _inputActions.Enable();
+        m_PlayerInput = GetComponent<PlayerInput>();
+        m_PlayerInput.controlsChangedEvent.AddListener(OnControlsChanged);
+
+        _moveAction = m_PlayerInput.actions["Player/Move"];
+        _jumpAction = m_PlayerInput.actions["Player/Jump"];
+        _lookAction = m_PlayerInput.actions["Player/Look"];
+        _lookEngageAction = m_PlayerInput.actions["Player/LookEngage"];
+        _zoomAction = m_PlayerInput.actions["Player/Zoom"];
     }
 
     private void Update()
     {
-        moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
-        jumpInput = _inputActions.Player.Jump.triggered;
+        moveInput = _moveAction.ReadValue<Vector2>();
+        jumpInput = _jumpAction.triggered;
 
-        switch (ApplicationManager.Instance.DeviceType)
+        switch (_state)
         {
-            case DeviceType.Unknown:
-                break;
-            case DeviceType.Handheld:
-                Touch[] touches = Input.touches;
-                foreach (Touch touch in touches)
+            case State.InGame:
+                if (IsPointerOverUI())
                 {
-                    if (touch.phase == UnityEngine.TouchPhase.Began)
-                    {
-                        _isOverUI = EventSystem.current.IsPointerOverGameObject();
-                    }
+                    break;
+                }
+                if (_controlStyle != ControlStyle.GamepadJoystick && _lookEngageAction.WasPressedThisFrame() && IsPointerInsideScreen())
+                {
+                    EngageCameraControl();
+                }
+                if (_controlStyle == ControlStyle.GamepadJoystick)
+                {
+                    ProcessCameraLook();
                 }
                 break;
-            case DeviceType.Console:
-                break;
-            case DeviceType.Desktop:
-                if (Input.GetMouseButtonDown(0))
+            case State.InGameControllingCamera:
+                ProcessCameraLook();
+
+                if (_mouse != null)
                 {
-                    _isOverUI = EventSystem.current.IsPointerOverGameObject();
+                    _mousePositionToWarpToAfterCursorUnlock = _mousePositionToWarpToAfterCursorUnlock.Value + _mouse.delta.ReadValue();
                 }
-                if (Input.GetMouseButtonUp(0))
+                    
+                if (!_lookEngageAction.IsPressed())
                 {
-                    _isOverUI = false;
-                }
-                if (_isOverUI == false)
-                {
-                    lookInput = _inputActions.Player.Look.ReadValue<Vector2>();
+                    DisengageCameraControl();
                 }
                 break;
         }
+
+        zoomInput = _zoomAction.ReadValue<Vector2>().y / 120;
+    }
+
+    public void OnControlsChanged(PlayerInput playerInput)
+    {
+        if (playerInput.GetDevice<Touchscreen>() != null) // Note that Touchscreen is also a Pointer so check this first.
+            _controlStyle = ControlStyle.Touch;
+        else if (playerInput.GetDevice<Pointer>() != null)
+            _controlStyle = ControlStyle.KeyboardMouse;
+        else if (playerInput.GetDevice<Gamepad>() != null || playerInput.GetDevice<Joystick>() != null)
+            _controlStyle = ControlStyle.GamepadJoystick;
+        else
+            Logger.LogError("Control scheme not recognized: " + playerInput.currentControlScheme);
+
+        _mouse = default;
+        _mousePositionToWarpToAfterCursorUnlock = default;
+    }
+
+    void EngageCameraControl()
+    {
+        _mouse = m_PlayerInput.GetDevice<Mouse>();
+        _mousePositionToWarpToAfterCursorUnlock = _mouse?.position.ReadValue();
+
+         Cursor.lockState = CursorLockMode.Locked;
+
+        _state = State.InGameControllingCamera;
+    }
+    void DisengageCameraControl()
+    {
+        Cursor.lockState = CursorLockMode.None;
+
+        if (_mousePositionToWarpToAfterCursorUnlock != null)
+            _mouse?.WarpCursorPosition(_mousePositionToWarpToAfterCursorUnlock.Value);
+
+        lookInput = Vector2.zero;
+
+        _state = State.InGame;
+    }
+
+    void ProcessCameraLook()
+    {
+        lookInput = _lookAction.ReadValue<Vector2>();
+    }
+
+    bool IsPointerOverUI()
+    {
+        if (_controlStyle == ControlStyle.GamepadJoystick)
+            return false;
+
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+    bool IsPointerInsideScreen()
+    {
+        var pointer = m_PlayerInput.GetDevice<Pointer>();
+        if (pointer == null)
+            return true;
+
+        return Screen.safeArea.Contains(pointer.position.ReadValue());
     }
 }

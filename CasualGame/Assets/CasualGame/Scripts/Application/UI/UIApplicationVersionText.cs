@@ -12,10 +12,6 @@ public class UIApplicationVersionText : MonoBehaviour
     {
         m_Text = GetComponent<TextMeshProUGUI>();
         string version = ApplicationManager.Instance.Version;
-        if (string.IsNullOrEmpty(version))
-        {
-            version = Application.version;
-        }
         m_Text.text = $"ver {version}";
     }
 }

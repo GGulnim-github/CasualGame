@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
-public class TPSCharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [Header("Camera")]
-    public TPSCameraController cameraController;
-    public Transform cameraTarget;
+    [Header("Look Settings")]
+    public float lookOffsetY = 1.4f;
+    public float topClamp = 70.0f;
+    public float bottomClamp = -30.0f;
+    public float farDistance = 7.5f;
+    public float nearDistance = 2f;
+    public float xAxisSpeed = 0.1f;
+    public float yAxisSpeed = 0.1f;
 
     [Header("Ground Check Settings")]
     public LayerMask groundLayerMask;
@@ -16,9 +22,9 @@ public class TPSCharacterController : MonoBehaviour
     public float groundCheckSize = 0.5f;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 3f;
+    public float moveSpeed = 6f;
     public float rotationSpeed = 0.12f;
-    public float jumpFoce = 3f;
+    public float jumpFoce = 1.8f;
     public float jumpDelay = 0.2f;
 
     [Header("States")]
@@ -32,6 +38,13 @@ public class TPSCharacterController : MonoBehaviour
 
     Vector2 _moveInput;
     bool _jumpInput;
+    Vector2 _lookInput;
+    float _zoomInput;
+
+    Transform _lookTransform;
+    Quaternion _lastLookTransformRotation;
+
+    PlayerFollowCamera _followCamera;
 
     Rigidbody m_Rigidbody;
     CapsuleCollider m_Collider;
@@ -40,6 +53,12 @@ public class TPSCharacterController : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<CapsuleCollider>();
+
+        _lookTransform = CreateEmptyTransform("Look Transform", position: new Vector3(0f, lookOffsetY, 0f), parent: transform);
+        _lastLookTransformRotation = _lookTransform.rotation;
+
+        _followCamera = CameraManager.Instance.PlayerFollowCamera;
+        _followCamera.SetTarget(_lookTransform);
     }
 
     private void Update()
@@ -47,13 +66,18 @@ public class TPSCharacterController : MonoBehaviour
         CheckGround();
         SetInput();
 
+        Zoom();
+
         Jump();       
         Rotate();
     }
-
     private void FixedUpdate()
     {
         Movement();
+    }
+    private void LateUpdate()
+    {
+        Look();
     }
 
     void CheckGround()
@@ -79,9 +103,11 @@ public class TPSCharacterController : MonoBehaviour
     }
     void SetInput()
     {
-        _jumpInput = InputManager.Instance.jumpInput;
-
         _moveInput = InputManager.Instance.moveInput;
+        _jumpInput = InputManager.Instance.jumpInput;
+        _lookInput = InputManager.Instance.lookInput;
+        _zoomInput = InputManager.Instance.zoomInput;
+
         isMoving = (_moveInput != Vector2.zero);
     }
 
@@ -116,11 +142,10 @@ public class TPSCharacterController : MonoBehaviour
         }
 
         Vector3 inputDirection = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
-        _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cameraTarget.transform.eulerAngles.y;
+        _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _lookTransform.transform.eulerAngles.y;
         float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, rotationSpeed);
         transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
     }
-
     void Movement()
     {
         if (isMoving == false)
@@ -132,24 +157,38 @@ public class TPSCharacterController : MonoBehaviour
         transform.Translate(moveSpeed * Time.deltaTime * targetDirection, Space.World);
     }
 
-    public void Teleport(Vector3 position = default(Vector3), float eulerAngleY = 0f, float cameraXAxis = 0f, float cameraYAxis = 0f)
+    void Zoom()
     {
-        transform.SetPositionAndRotation(position, Quaternion.Euler(0f, eulerAngleY, 0f));
-        if (cameraXAxis == 0f && cameraYAxis == 0f)
-        {
-            cameraController.SetRotation(Vector3.zero);
-        }
-        else
-        {
-            cameraController.SetRotation(new Vector3(cameraXAxis, cameraYAxis, 0f));
-        }
+        _followCamera.Zoom(_zoomInput, farDistance, nearDistance);
+    }
+    void Look()
+    {
+        _lookTransform.rotation = _lastLookTransformRotation;
+
+        Vector3 targetEulerAngles = _lookTransform.rotation.eulerAngles;
+        targetEulerAngles.x -= _lookInput.y * yAxisSpeed;
+        targetEulerAngles.y += _lookInput.x * xAxisSpeed;
+
+        targetEulerAngles.x = ClampAngleX(targetEulerAngles.x, bottomClamp, topClamp);
+        targetEulerAngles.y = ClampAngleY(targetEulerAngles.y, float.MinValue, float.MaxValue);
+
+        _lookTransform.transform.rotation = Quaternion.Euler(targetEulerAngles.x, targetEulerAngles.y, 0f);
+        _lastLookTransformRotation = _lookTransform.rotation;
+    }
+
+    public void Teleport(Vector3 position = default(Vector3), float eulerAngleY = 0f)
+    {
+        Quaternion rotation = Quaternion.Euler(0f, eulerAngleY, 0f);
+
+        transform.SetPositionAndRotation(position, rotation);
+        _lastLookTransformRotation = rotation;
     }
 
     Transform CreateEmptyTransform(string name = "New Transform", Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion), Transform parent = null, bool hide = false)
     {
         Transform newTransform = new GameObject(name).transform;
 
-        newTransform.SetPositionAndRotation(position, rotation);
+        newTransform.SetLocalPositionAndRotation(position, rotation);
         newTransform.SetParent(parent);
 
         if (hide)
@@ -159,6 +198,31 @@ public class TPSCharacterController : MonoBehaviour
         }
 
         return newTransform;
+    }
+
+    float ClampAngleX(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -180f)
+        {
+            lfAngle += 360f;
+        }
+        if (lfAngle > 180f)
+        {
+            lfAngle -= 360f;
+        }
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+    float ClampAngleY(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f)
+        {
+            lfAngle += 360f;
+        }
+        if (lfAngle > 360f)
+        {
+            lfAngle -= 360f;
+        }
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
 #if UNITY_EDITOR

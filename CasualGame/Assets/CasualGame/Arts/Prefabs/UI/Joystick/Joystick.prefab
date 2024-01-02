@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 96, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2744195136735766982
 CanvasRenderer:
@@ -88,11 +88,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementRange: 80
+  m_MovementRange: 128
   m_DynamicOriginRange: 100
-  m_ControlPath: <Joystick>/stick
+  m_ControlPath: 
   m_Behaviour: 0
-  m_UseIsolatedInputActions: 0
+  m_UseIsolatedInputActions: 1
   m_PointerDownAction:
     m_Name: Pointer Down
     m_Type: 0
@@ -100,7 +100,31 @@ MonoBehaviour:
     m_Id: 1edcb464-c128-4649-a971-b06ab1722d1e
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 0d8976f9-ee66-45a3-9f7e-e3ea8baff4ac
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Down
+      m_Flags: 0
+    - m_Name: 
+      m_Id: cb66db73-3c0f-4b25-9b4f-871bd4491b9c
+      m_Path: <Pen>/tip
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Down
+      m_Flags: 0
+    - m_Name: 
+      m_Id: d4ec4574-e596-41bc-99e4-dc3f3a81d782
+      m_Path: <Touchscreen>/touch*/Press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Down
+      m_Flags: 0
     m_Flags: 0
   m_PointerMoveAction:
     m_Name: Pointer Move
@@ -109,7 +133,31 @@ MonoBehaviour:
     m_Id: d7fdda68-2569-4dcf-befd-ee6c04cc5629
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: ddd1b5c5-d0d2-4977-8a33-f87b75fa6777
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Move
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 8960bd6f-95b2-4742-9a6d-5c3678ae8d49
+      m_Path: <Pen>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Move
+      m_Flags: 0
+    - m_Name: 
+      m_Id: b61fdd43-2e22-4a40-8ab8-f81280810f43
+      m_Path: <Touchscreen>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pointer Move
+      m_Flags: 0
     m_Flags: 0
 --- !u!1 &8891447837294238444
 GameObject:
@@ -147,7 +195,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 160}
+  m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2554428116080449966
 CanvasRenderer:
