@@ -476,7 +476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 966dcb97883bb5b40b36d46829819b9c,
     type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 1822960553}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -1104,6 +1104,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ControlPath
       value: <Joystick>/stick
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_MovementRange
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerDownAction.m_Id
+      value: 1c945da0-9117-40fb-a09c-48dfa42911cc
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerMoveAction.m_Id
+      value: 11c53b4c-1b91-42b4-8cf3-9f56f1a6d2a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_UseIsolatedInputActions
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerDownAction.m_Name
+      value: Pointer Down
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerMoveAction.m_Name
+      value: Pointer Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerDownAction.m_SingletonActionBindings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886814363995590963, guid: bd262fdcde6ae68478c559c79d2d9d50,
+        type: 3}
+      propertyPath: m_PointerMoveAction.m_SingletonActionBindings.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7750045937588710637, guid: bd262fdcde6ae68478c559c79d2d9d50,
         type: 3}

@@ -15,11 +15,12 @@ public class PlayerController : MonoBehaviour
     public float xAxisSpeed = 0.1f;
     public float yAxisSpeed = 0.1f;
 
-    [Header("Ground Check Settings")]
+    [Header("Ground Settings")]
     public LayerMask groundLayerMask;
     public float groundCheckRadius = 0.1f;
     public float groundCheckHeighOfsset = 0.1f;
     public float groundCheckSize = 0.5f;
+    public float groundMaxSlopeAngle = 45f;
 
     [Header("Movement Settings")]
     public float moveSpeed = 6f;
@@ -32,9 +33,14 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded;
     public bool isJumping;
     public bool canJump;
+    public bool isSlope;
 
     float _targetRotation;
     float _rotationVelocity;
+
+    float _groundAngle;
+    Vector3 _groundNormal;
+    Vector3 _groundPoint;
 
     Vector2 _moveInput;
     bool _jumpInput;
@@ -100,6 +106,21 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + transform.up * 0.5f, -transform.up, out hit, 2, groundLayerMask))
+        {
+            _groundAngle = Vector3.Angle(Vector3.up, hit.normal);
+            _groundNormal = hit.normal;
+            _groundPoint = hit.point;
+        }
+        else
+        {
+            _groundAngle = 0f;
+            _groundNormal = Vector3.zero;
+            _groundPoint = Vector3.zero;
+        }
+        isSlope = _groundAngle != 0f && _groundAngle < groundMaxSlopeAngle;
     }
     void SetInput()
     {
@@ -150,11 +171,15 @@ public class PlayerController : MonoBehaviour
     {
         if (isMoving == false)
         {
+            m_Rigidbody.velocity = transform.up * m_Rigidbody.velocity.y;
             return;
         }
 
-        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        transform.Translate(moveSpeed * Time.deltaTime * targetDirection, Space.World);
+        Vector3 direction = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        Vector3 velocity = (isGrounded && isSlope && !isJumping) ? AdjustDirectionToSlope(direction) : direction;
+        
+        //m_Rigidbody.velocity = velocity * moveSpeed + transform.up * m_Rigidbody.velocity.y;        
+        transform.Translate(moveSpeed * Time.deltaTime * velocity, Space.World);
     }
 
     void Zoom()
@@ -182,6 +207,11 @@ public class PlayerController : MonoBehaviour
 
         transform.SetPositionAndRotation(position, rotation);
         _lastLookTransformRotation = rotation;
+    }
+
+    Vector3 AdjustDirectionToSlope(Vector3 direction)
+    {
+        return Vector3.ProjectOnPlane(direction, _groundNormal).normalized;
     }
 
     Transform CreateEmptyTransform(string name = "New Transform", Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion), Transform parent = null, bool hide = false)
