@@ -140,7 +140,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5404605562212249145}
-  m_Material: {fileID: 13400000, guid: ab3d4ffac510ed74faf2f0b1d10da3c5, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -168,18 +168,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feaedb228510c4c4284347fd10b2b5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTargetY: 1.4
+  lookOffsetY: 1.4
+  topClamp: 70
+  bottomClamp: -30
+  farDistance: 7.5
+  nearDistance: 2
+  xAxisSpeed: 0.1
+  yAxisSpeed: 0.1
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.1
   groundCheckHeighOfsset: 0.1
   groundCheckSize: 0.5
-  moveSpeed: 6
+  groundMaxSlopeAngle: 45
+  speedChangeRate: 10
+  runSpeed: 6
   rotationSpeed: 0.12
-  jumpFoce: 1.8
+  jumpHeight: 1.8
   jumpDelay: 0.2
   isMoving: 0
   isGrounded: 0
   isJumping: 0
   canJump: 0
+  isSlope: 0
+  isSliding: 0
+  _speed: 0
+  _groundAngle: 0

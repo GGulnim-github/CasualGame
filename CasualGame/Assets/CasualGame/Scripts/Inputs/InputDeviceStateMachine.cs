@@ -90,11 +90,11 @@ public class TouchScreenInputDevice : InputDevice
         Rotate,
         Zoom,
     }
-    LookState _lookState;
+    //LookState _lookState;
 
     public override void OnEnter()
     {
-        _lookState = LookState.None;
+        //_lookState = LookState.None;
     }
 
     public override void OnUpdate(InputManager manager)
