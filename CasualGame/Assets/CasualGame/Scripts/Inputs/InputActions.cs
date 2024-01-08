@@ -123,7 +123,7 @@ namespace UnityEngine.InputSystem
                 {
                     ""name"": ""WASD"",
                     ""id"": ""ac409dee-7ce4-49c2-84e4-306162efe951"",
-                    ""path"": ""Dpad"",
+                    ""path"": ""Dpad(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

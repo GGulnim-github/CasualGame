@@ -37,48 +37,48 @@ public class KeyboardMouseInputDevice : InputDevice
     {
         manager.moveInput = manager.GetInputAction(PlayerInputType.Move).ReadValue<Vector2>();
         manager.jumpInput = manager.GetInputAction(PlayerInputType.Jump).triggered;
-
+        manager.lookInput = manager.GetInputAction(PlayerInputType.Look).ReadValue<Vector2>();
         manager.zoomInput = manager.GetInputAction(PlayerInputType.Zoom).ReadValue<Vector2>().y / 120f;
+        Cursor.lockState = CursorLockMode.Locked;
+        //switch (_lookState)
+        //{
+        //    case LookState.None:
+        //        if (manager.IsPointerOverUI())
+        //        {
+        //            break;
+        //        }
+        //        //Logger.Log($"{manager.GetInputAction(PlayerInputType.LookEnage).WasPressedThisFrame()}_{manager.IsPointerInsideScreen()}");
+        //        if (manager.GetInputAction(PlayerInputType.LookEnage).WasPressedThisFrame() && manager.IsPointerInsideScreen())
+        //        {
+        //            _mouse = _playerInput.GetDevice<Mouse>();
+        //            _mousePositionToWarpToAfterCursorUnlock = _mouse?.position.ReadValue();
 
-        switch (_lookState)
-        {
-            case LookState.None:
-                if (manager.IsPointerOverUI())
-                {
-                    break;
-                }
-                //Logger.Log($"{manager.GetInputAction(PlayerInputType.LookEnage).WasPressedThisFrame()}_{manager.IsPointerInsideScreen()}");
-                if (manager.GetInputAction(PlayerInputType.LookEnage).WasPressedThisFrame() && manager.IsPointerInsideScreen())
-                {
-                    _mouse = _playerInput.GetDevice<Mouse>();
-                    _mousePositionToWarpToAfterCursorUnlock = _mouse?.position.ReadValue();
+        //            Cursor.lockState = CursorLockMode.Locked;
 
-                    Cursor.lockState = CursorLockMode.Locked;
+        //            _lookState = LookState.Rotate;
+        //        }
+        //        break;
+        //    case LookState.Rotate:
+        //        manager.lookInput = manager.GetInputAction(PlayerInputType.Look).ReadValue<Vector2>();
 
-                    _lookState = LookState.Rotate;
-                }
-                break;
-            case LookState.Rotate:
-                manager.lookInput = manager.GetInputAction(PlayerInputType.Look).ReadValue<Vector2>();
+        //        if (_mouse != null)
+        //        {
+        //            _mousePositionToWarpToAfterCursorUnlock = _mousePositionToWarpToAfterCursorUnlock.Value + _mouse.delta.ReadValue();
+        //        }
 
-                if (_mouse != null)
-                {
-                    _mousePositionToWarpToAfterCursorUnlock = _mousePositionToWarpToAfterCursorUnlock.Value + _mouse.delta.ReadValue();
-                }
+        //        if (!manager.GetInputAction(PlayerInputType.LookEnage).IsPressed())
+        //        {
+        //            Cursor.lockState = CursorLockMode.None;
 
-                if (!manager.GetInputAction(PlayerInputType.LookEnage).IsPressed())
-                {
-                    Cursor.lockState = CursorLockMode.None;
+        //            if (_mousePositionToWarpToAfterCursorUnlock != null)
+        //                _mouse?.WarpCursorPosition(_mousePositionToWarpToAfterCursorUnlock.Value);
 
-                    if (_mousePositionToWarpToAfterCursorUnlock != null)
-                        _mouse?.WarpCursorPosition(_mousePositionToWarpToAfterCursorUnlock.Value);
+        //            manager.lookInput = Vector2.zero;
 
-                    manager.lookInput = Vector2.zero;
-
-                    _lookState = LookState.None;
-                }
-                break;
-        }
+        //            _lookState = LookState.None;
+        //        }
+        //        break;
+        //}
     }
 }
 

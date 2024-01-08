@@ -6,6 +6,7 @@ using UnityEngine;
 public class StateMachine<Type, Controller> where Type : Enum where Controller : class
 {
     public State<Controller> State { get; private set; }
+    public Type CurrentType { get; private set; }
 
     Controller _controller;
     Dictionary<Type, State<Controller>> _states = new();
@@ -56,6 +57,7 @@ public class StateMachine<Type, Controller> where Type : Enum where Controller :
         State?.OnExit(_controller);
         State = _states[type];
         State?.OnEnter(_controller);
+        CurrentType = type;
     }
 
     public void Clear()
